@@ -1,26 +1,32 @@
 class Solution {
-    private int m, n;
-    private int[][] mat;
-    private boolean isSpecial(int cm, int cn) {
-
-        for(int i=0; i<m; i++) {
-            if(i != cm && mat[i][cn] == 1) return false;
-        }
-        for(int j=0; j<n; j++) {
-            if(j != cn && mat[cm][j] == 1) return false;
-        } return true;
-    }
     public int numSpecial(int[][] mat) {
-
-        this.m = mat.length;
-        this.n = mat[0].length;
-        this.mat = mat;
-
-        int count = 0;
-        for(int i=0; i<m; i++) {
-            for(int j=0; j<n; j++) {
-                if(mat[i][j] == 1 && isSpecial(i, j)) count++;
+        int m = mat.length;
+        int n = mat[0].length;
+        
+        int[] rowCount = new int[m];
+        int[] colCount = new int[n];
+        
+        // Step 1: Pre-calculate the number of 1s in each row and column
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (mat[i][j] == 1) {
+                    rowCount[i]++;
+                    colCount[j]++;
+                }
             }
-        } return count;
+        }
+        
+        // Step 2: Identify special positions
+        int count = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                // A position is special if it's 1 and it's the ONLY 1 in its row and column
+                if (mat[i][j] == 1 && rowCount[i] == 1 && colCount[j] == 1) {
+                    count++;
+                }
+            }
+        }
+        
+        return count;
     }
 }
