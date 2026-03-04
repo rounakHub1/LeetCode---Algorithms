@@ -32,6 +32,7 @@ class Solution {
     }
     public List<String> letterCombinations(String digits) {
         
+        if (digits == null || digits.isEmpty()) return new ArrayList<>();
         this.digits = digits;
         this.ln = digits.length();
 
