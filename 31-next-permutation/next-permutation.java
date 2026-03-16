@@ -1,37 +1,40 @@
 class Solution {
+    
     public void nextPermutation(int[] nums) {
-        int n = nums.length;
-        int i = n - 2;
+        
+        int ln = nums.length;
+        int i = ln - 1;
 
-        // 1. Find the first decreasing element from the right (the pivot)
-        while (i >= 0 && nums[i] >= nums[i + 1]) {
+        while (i > 0) {
+            if (nums[i] > nums[i - 1]) {
+                
+                int pivotIndex = i - 1;
+                int successorIndex = ln - 1;
+                
+                while (nums[successorIndex] <= nums[pivotIndex]) {
+                    successorIndex--;
+                }
+
+                int temp = nums[pivotIndex];
+                nums[pivotIndex] = nums[successorIndex];
+                nums[successorIndex] = temp;
+
+                int start = i;
+                int end = ln - 1;
+
+                while (start < end) {
+                    int t = nums[start];
+                    nums[start] = nums[end];
+                    nums[end] = t;
+                    start++;
+                    end--;
+                }
+                return;
+            } 
             i--;
         }
-
-        if (i >= 0) {
-            // 2. Find the element just larger than the pivot to swap with
-            int j = n - 1;
-            while (nums[j] <= nums[i]) {
-                j--;
-            }
-            swap(nums, i, j);
-        }
-
-        // 3. Reverse the elements to the right of the pivot
-        reverse(nums, i + 1, n - 1);
-    }
-
-    private void swap(int[] nums, int i, int j) {
-        int temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
-    }
-
-    private void reverse(int[] nums, int start, int end) {
-        while (start < end) {
-            swap(nums, start, end);
-            start++;
-            end--;
+        if (i == 0) {
+            Arrays.sort(nums);
         }
     }
 }
